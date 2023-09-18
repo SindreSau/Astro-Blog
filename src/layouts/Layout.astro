@@ -1,51 +1,88 @@
 ---
+import { ViewTransitions } from 'astro:transitions';
 interface Props {
-	title: string;
+  title: string;
+  active: 'home' | 'about';
 }
 
-const { title } = Astro.props;
+const { title, active } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='description' content='Blog made to learn Astro and Firebase' />
+    <meta name='viewport' content='width=device-width' />
+    <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+    <meta name='generator' content={Astro.generator} />
+    <title>{title}</title>
+
+    <ViewTransitions />
+  </head>
+  <body class='flex flex-col bg-zinc-900 text-neutral-200 h-screen'>
+    <header class='fixed left-0 right-0 top-0 py-4 bg-zinc-900 shadow-lg'>
+      <div class='container mx-auto flex justify-between items-center'>
+        <a id='logo' href='/'>
+          <span>Astro-Blog</span>
+        </a>
+
+        <nav class='flex'>
+          <a class={active == 'home' && 'active'} href='/'>Home</a>
+          <a class={active == 'about' && 'active'} href='/about'>About</a>
+          <a href=''>Contact</a>
+        </nav>
+
+        <div></div>
+      </div>
+    </header>
+
+    <main class='container mx-auto flex-grow mt-16'>
+      <slot />
+    </main>
+
+    <footer class='flex bg-neutral-900 pt-6 pb-2 shadow-[0_-5px_30px_0_rgba(0,0,0,0.2)]'>
+      <div class='container mx-auto flex justify-center gap-6 text-neutral-500'>
+        <span>© SindreSau</span>
+        <a class='underline' href='https://github.com/SindreSau'>Github/SindreSau</a>
+      </div>
+    </footer>
+    <style>
+      :root {
+        --clr-primary: #64a998;
+      }
+
+      #logo {
+        font-weight: 700;
+        color: var(--clr-primary);
+      }
+
+      nav > a {
+        position: relative;
+        padding: 0 2rem;
+      }
+
+      nav > a::after {
+        content: '';
+        position: absolute;
+        bottom: -0.4rem;
+        left: 0;
+        width: 100%;
+        height: 0.05rem;
+        background: var(--clr-primary);
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform 0.2s ease-in-out;
+      }
+
+      nav > a:hover::after {
+        transform: scaleX(1);
+      }
+
+      nav > a.active::after {
+        transform: scaleX(1);
+        opacity: 0.6;
+      }
+    </style>
+  </body>
 </html>
-<style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: #13151a;
-		background-size: 224px;
-	}
-	code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
-	}
-</style>
