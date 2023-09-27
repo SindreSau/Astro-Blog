@@ -1,0 +1,24 @@
+---
+const { title, createdAt, slug, imagesrc, imagealt, author } = Astro.props;
+---
+
+<a href={`/posts/${slug}/`}>
+  <li>
+    <img src={imagesrc} alt={imagealt} />
+    <div>
+      <h2>
+        {title}
+      </h2>
+      <time>
+        {createdAt}
+      </time>
+      <div>Author: {author}</div>
+    </div>
+  </li>
+</a>
+
+<!-- 
+  transition:name={'blog-image-' + slug} 
+  transition:name={'blog-title-' + slug}
+  transition:name={'blog-date-' + slug}
+ -->

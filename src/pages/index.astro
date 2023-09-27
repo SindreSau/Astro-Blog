@@ -1,7 +1,43 @@
 ---
+import { ViewTransitions } from 'astro:transitions';
+import BlogCard from '../components/BlogCard.astro';
 import Layout from '../layouts/Layout.astro';
+
+import { contentfulClient } from '../lib/contentful';
+import type { BlogPost } from '../lib/contentful';
+import { slugify } from '../lib/utils/Slugify';
+
+const entries = await contentfulClient.getEntries<BlogPost>({
+  content_type: 'blogPost',
+});
+
+const posts = entries.items.map((item) => {
+  const { title, createdAt, coverImage, author } = item.fields;
+  return {
+    title,
+    slug: slugify(title),
+    createdAt: new Date(createdAt).toLocaleDateString(),
+    coverImage,
+    author,
+  };
+});
 ---
 
 <Layout title='Home'>
-  <h1>Home</h1>
+  <h1 class='text-2xl font-bold my-4'>Welcome to my blog demo</h1>
+
+  <ul class='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-cols-1'>
+    {
+      posts.map((post) => (
+        <BlogCard
+          title={post.title}
+          createdAt={post.createdAt}
+          slug={post.slug}
+          imagesrc={post.coverImage.fields.file.url}
+          imagealt={post.coverImage.fields.title}
+          author={post.author.fields.name}
+        />
+      ))
+    }
+  </ul>
 </Layout>
