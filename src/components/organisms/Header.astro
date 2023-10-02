@@ -1,0 +1,80 @@
+---
+import Icon from 'astro-icon';
+
+const navItems = [
+  {
+    label: 'Home',
+    url: '/',
+  },
+  {
+    label: 'About',
+    url: '/about',
+  },
+];
+
+export type Props = {
+  activeNav?: 'Home' | 'About';
+};
+
+const { activeNav } = Astro.props;
+---
+
+<!-- Skip to main content -->
+<a href='#main-content' class='transition-all absolute -top-full left-10 z-50 px-2 py-1 focus:top-2'
+  >Skip to main content</a
+>
+
+<header class='container mx-auto px-6 py-4 flex justify-between items-center text-2xl font-heading'>
+  <!-- Logo -->
+  <a href='/'>Blog</a>
+
+  <!-- Navbar -->
+  <nav class='flex gap-10'>
+    <button class='flex md:hidden'>Menu</button>
+    <ul id='navcontent' class='items-center gap-10 hidden md:flex'>
+      {
+        navItems.map((item) => (
+          <li>
+            <a href={item.url} class={`${activeNav === item.label ? 'text-accent' : 'hover:text-accent'}`}>
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- Theme toggle -->
+    <button id='theme-btn' class='w-10 h-10 border' title='Toggles light & dark' aria-label='auto' aria-live='polite'>
+      <!-- SUN -->
+      <svg id='sunicon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'
+        ><path
+          fill='currentColor'
+          d='M6.993 12c0 2.761 2.246 5.007 5.007 5.007s5.007-2.246 5.007-5.007S14.761 6.993 12 6.993S6.993 9.239 6.993 12zM12 8.993c1.658 0 3.007 1.349 3.007 3.007S13.658 15.007 12 15.007S8.993 13.658 8.993 12S10.342 8.993 12 8.993zM10.998 19h2v3h-2zm0-17h2v3h-2zm-9 9h3v2h-3zm17 0h3v2h-3zM4.219 18.363l2.12-2.122l1.415 1.414l-2.12 2.122zM16.24 6.344l2.122-2.122l1.414 1.414l-2.122 2.122zM6.342 7.759L4.22 5.637l1.415-1.414l2.12 2.122zm13.434 10.605l-1.414 1.414l-2.122-2.122l1.414-1.414z'
+        ></path></svg
+      >
+
+      <!-- MOON -->
+      <svg id='moonicon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'
+        ><path
+          fill='currentColor'
+          d='M20.742 13.045a8.088 8.088 0 0 1-2.077.271c-2.135 0-4.14-.83-5.646-2.336a8.025 8.025 0 0 1-2.064-7.723A1 1 0 0 0 9.73 2.034a10.014 10.014 0 0 0-4.489 2.582c-3.898 3.898-3.898 10.243 0 14.143a9.937 9.937 0 0 0 7.072 2.93a9.93 9.93 0 0 0 7.07-2.929a10.007 10.007 0 0 0 2.583-4.491a1.001 1.001 0 0 0-1.224-1.224zm-2.772 4.301a7.947 7.947 0 0 1-5.656 2.343a7.953 7.953 0 0 1-5.658-2.344c-3.118-3.119-3.118-8.195 0-11.314a7.923 7.923 0 0 1 2.06-1.483a10.027 10.027 0 0 0 2.89 7.848a9.972 9.972 0 0 0 7.848 2.891a8.036 8.036 0 0 1-1.484 2.059z'
+        ></path></svg
+      >
+    </button>
+  </nav>
+</header>
+
+<style>
+  /* Toggle theme-icons */
+  #sunicon,
+  html[data-theme='dark'] #moonicon {
+    display: none;
+  }
+
+  #moonicon,
+  html[data-theme='dark'] #sunicon {
+    display: block;
+  }
+</style>
+
+<script is:inline></script>

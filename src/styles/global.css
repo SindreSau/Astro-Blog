@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root,
+  html[data-theme='light'] {
+    --color-background: #ffffff;
+    --color-background-secondary: #dee0e1;
+    --color-text: #373a3c;
+    --color-text-muted: #7f8386;
+    --color-text-accent: #ff1547;
+    --color-text-accent-hover: #ff2857;
+  }
+  html[data-theme='dark'] {
+    --color-background: #0e141b;
+    --color-background-secondary: #232324;
+    --color-text: #e8e8e8;
+    --color-text-muted: #7f8386;
+    --color-text-accent: #ff5277;
+    --color-text-accent-hover: #ff2857;
+  }
+
+  body {
+    @apply bg-primary text-primary font-base;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
+}
