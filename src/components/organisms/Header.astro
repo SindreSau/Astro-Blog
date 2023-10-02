@@ -24,18 +24,42 @@ const { activeNav } = Astro.props;
   >Skip to main content</a
 >
 
-<header class='container mx-auto px-6 py-4 flex justify-between items-center text-2xl font-heading'>
+<header
+  class='fixed container left-1/2 -translate-x-1/2 px-6 py-4 md:py-12 flex justify-between items-center text-2xl font-heading z-10 bg-primary'>
   <!-- Logo -->
-  <a href='/'>Blog</a>
+  <a href='/' class='uppercase text-3xl'>Blog</a>
 
   <!-- Navbar -->
-  <nav class='flex gap-10'>
-    <button class='flex md:hidden'>Menu</button>
-    <ul id='navcontent' class='items-center gap-10 hidden md:flex'>
+  <nav class='flex gap-5 md:gap-10 items-center'>
+    <button
+      class='flex flex-col items-end gap-1.5 order-1 md:hidden transition-transform duration-300 ease-in-out z-50'
+      aria-label='Open Menu'
+      aria-expanded='false'
+      aria-controls='menu-items'>
+      <div
+        id='menuLine1'
+        class='border-[2px] border-primary w-8 rounded-sm transition-transform duration-300 ease-in-out'>
+      </div>
+      <div
+        id='menuLine2'
+        class='border-[2px] border-primary w-8 rounded-sm transition-transform duration-300 ease-in-out'>
+      </div>
+      <div
+        id='menuLine3'
+        class='border-[2px] border-primary w-8 rounded-sm transition-transform duration-300 ease-in-out'>
+      </div>
+    </button>
+    <ul id='navcontent' class='items-center gap-10 hidden md:flex navMenuClosed'>
       {
         navItems.map((item) => (
           <li>
-            <a href={item.url} class={`${activeNav === item.label ? 'text-accent' : 'hover:text-accent'}`}>
+            <a
+              href={item.url}
+              class={`${
+                activeNav === item.label
+                  ? 'border-b-4 border-accent relative'
+                  : 'hover:after:border-b-4 hover:after:absolute '
+              }`}>
               {item.label}
             </a>
           </li>
@@ -44,7 +68,12 @@ const { activeNav } = Astro.props;
     </ul>
 
     <!-- Theme toggle -->
-    <button id='theme-btn' class='w-10 h-10 border' title='Toggles light & dark' aria-label='auto' aria-live='polite'>
+    <button
+      id='theme-btn'
+      class='w-8 h-8 md:w-10 md:h-10 hover:rotate-12 transition-transform duration-300 ease-in-out'
+      title='Toggles light & dark'
+      aria-label='auto'
+      aria-live='polite'>
       <!-- SUN -->
       <svg id='sunicon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'
         ><path
@@ -75,6 +104,100 @@ const { activeNav } = Astro.props;
   html[data-theme='dark'] #sunicon {
     display: block;
   }
+
+  /* Menu toggle */
+  @media (max-width: 768px) {
+    .navMenuOpen {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: translateX(100%);
+
+      height: 100vh;
+      width: 100vw;
+      background-color: var(--color-background-secondary);
+      z-index: 40;
+
+      animation: slideInFromRight 0.3s ease-out forwards;
+    }
+
+    .navMenuClosed {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      height: 100vh;
+      width: 100vw;
+      background-color: var(--color-background-secondary);
+      z-index: 40;
+
+      animation: slideOutToRight 0.15s ease-out forwards;
+    }
+  }
+
+  @keyframes slideInFromRight {
+    0% {
+      transform: translateX(100%);
+    }
+
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideOutToRight {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(100%);
+    }
+  }
 </style>
 
-<script is:inline></script>
+<script>
+  function toggleNav() {
+    // Toggle menu
+    const menuBtn = document.querySelector('button[aria-label="Open Menu"]');
+    const menuItems = document.querySelector('#navcontent');
+    const menuLines = {
+      line1: document.querySelector('#menuLine1'),
+      line2: document.querySelector('#menuLine2'),
+      line3: document.querySelector('#menuLine3'),
+    };
+
+    menuBtn?.addEventListener('click', () => {
+      const menuExpanded = menuBtn.getAttribute('aria-expanded') === 'true';
+
+      menuBtn.setAttribute('aria-expanded', menuExpanded ? 'false' : 'true');
+      menuBtn.setAttribute('aria-label', menuExpanded ? 'Open Menu' : 'Close Menu');
+      menuBtn.classList.toggle('rotate-90');
+
+      menuLines.line1?.classList.toggle('rotate-45');
+      menuLines.line1?.classList.toggle('translate-y-2');
+      // menuLines.line1?.classList.toggle('border-black');
+      menuLines.line2?.classList.toggle('opacity-0');
+      menuLines.line3?.classList.toggle('-rotate-45');
+      menuLines.line3?.classList.toggle('-translate-y-3');
+      // menuLines.line3?.classList.toggle('border-black');
+
+      menuItems?.classList.toggle('navMenuOpen');
+      menuItems?.classList.toggle('navMenuClosed');
+      console.log(menuExpanded);
+    });
+  }
+
+  toggleNav();
+
+  // Runs on view transitions navigation
+  document.addEventListener('astro:after-swap', toggleNav);
+</script>

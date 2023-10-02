@@ -11,18 +11,24 @@
     --color-text-muted: #7f8386;
     --color-text-accent: #ff1547;
     --color-text-accent-hover: #ff2857;
+    --color-border-muted: #dee0e1;
   }
   html[data-theme='dark'] {
     --color-background: #0e141b;
     --color-background-secondary: #232324;
     --color-text: #e8e8e8;
     --color-text-muted: #7f8386;
-    --color-text-accent: #ff5277;
-    --color-text-accent-hover: #ff2857;
+    --color-text-accent: #5eeb54;
+    --color-text-accent-hover: #a9ff9c;
+    --color-border-muted: #373737;
   }
 
   body {
-    @apply bg-primary text-primary font-base;
+    @apply bg-primary text-primary font-base transition-colors flex flex-col min-h-screen;
+  }
+
+  main {
+    @apply grow;
   }
 
   h1,
@@ -32,5 +38,31 @@
   h5,
   h6 {
     @apply font-heading;
+  }
+
+  .h1 {
+    @apply text-4xl font-bold mb-2;
+  }
+
+  p {
+    @apply text-[1.125rem] leading-[1.75rem] mb-4;
+  }
+
+  .link {
+    @apply relative italic;
+  }
+
+  .link::before {
+    @apply absolute w-full bg-secondary h-[0.55em] -z-20 left-0 -bottom-0.5 transition duration-300;
+    content: ''; /* This is required for the pseudo-element to show */
+  }
+
+  .link::after {
+    @apply absolute w-0 bg-accent-hover h-[0.55em] opacity-70 -z-10 left-0 -bottom-0.5 transition-all;
+    content: ''; /* This is required for the pseudo-element to show */
+  }
+
+  .link:hover::after {
+    @apply w-full ease-in;
   }
 }
