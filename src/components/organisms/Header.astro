@@ -7,14 +7,18 @@ const navItems = [
     url: '/',
   },
   {
+    label: 'Posts',
+    url: '/posts',
+  },
+  {
     label: 'About',
     url: '/about',
   },
 ];
 
-export type Props = {
-  activeNav?: 'Home' | 'About';
-};
+export interface Props {
+  activeNav?: 'Home' | 'About' | 'Posts';
+}
 
 const { activeNav } = Astro.props;
 ---
@@ -25,9 +29,9 @@ const { activeNav } = Astro.props;
 >
 
 <header
-  class='fixed container left-1/2 -translate-x-1/2 px-6 py-4 md:py-12 flex justify-between items-center text-2xl font-heading z-10 bg-primary'>
+  class='fixed container left-1/2 -translate-x-1/2 px-6 py-4 md:py-12 flex justify-between items-center text-2xl font-heading z-10 bg-primary transition-colors'>
   <!-- Logo -->
-  <a href='/' class='uppercase text-3xl'>Blog</a>
+  <a href='/' class='text-3xl font-heading'>AstroBlog</a>
 
   <!-- Navbar -->
   <nav class='flex gap-5 md:gap-10 items-center'>
@@ -52,13 +56,13 @@ const { activeNav } = Astro.props;
     <ul id='navcontent' class='items-center gap-10 hidden md:flex navMenuClosed'>
       {
         navItems.map((item) => (
-          <li>
+          <li class='nav-item opacity-0 translate-x-10 transition-all duration-200 md:opacity-100 md:translate-x-0'>
             <a
               href={item.url}
               class={`${
                 activeNav === item.label
                   ? 'border-b-4 border-accent relative'
-                  : 'hover:after:border-b-4 hover:after:absolute '
+                  : 'hover:after:border-b-4 hover:after:absolute menuItemHover'
               }`}>
               {item.label}
             </a>
@@ -70,7 +74,7 @@ const { activeNav } = Astro.props;
     <!-- Theme toggle -->
     <button
       id='theme-btn'
-      class='w-8 h-8 md:w-10 md:h-10 hover:rotate-12 transition-transform duration-300 ease-in-out'
+      class='w-8 h-8 md:w-10 md:h-10 hover:rotate-[40deg] transition-transform duration-300 ease-in-out'
       title='Toggles light & dark'
       aria-label='auto'
       aria-live='polite'>
@@ -105,6 +109,26 @@ const { activeNav } = Astro.props;
     display: block;
   }
 
+  /* Menu item hover */
+  .menuItemHover {
+    position: relative;
+  }
+
+  .menuItemHover::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 5px;
+    border-color: var(--color-background-secondary);
+    transition: width 0.15s ease-in;
+  }
+
+  .menuItemHover:hover::after {
+    width: 100%;
+  }
+
   /* Menu toggle */
   @media (max-width: 768px) {
     .navMenuOpen {
@@ -114,7 +138,7 @@ const { activeNav } = Astro.props;
 
       position: absolute;
       top: 0;
-      right: 0;
+      left: 0;
       transform: translateX(100%);
 
       height: 100vh;
@@ -132,7 +156,7 @@ const { activeNav } = Astro.props;
 
       position: absolute;
       top: 0;
-      right: 0;
+      left: 0;
 
       height: 100vh;
       width: 100vw;
@@ -169,6 +193,7 @@ const { activeNav } = Astro.props;
     // Toggle menu
     const menuBtn = document.querySelector('button[aria-label="Open Menu"]');
     const menuItems = document.querySelector('#navcontent');
+    const menuLinks = document.querySelectorAll('.nav-item');
     const menuLines = {
       line1: document.querySelector('#menuLine1'),
       line2: document.querySelector('#menuLine2'),
@@ -190,9 +215,17 @@ const { activeNav } = Astro.props;
       menuLines.line3?.classList.toggle('-translate-y-3');
       // menuLines.line3?.classList.toggle('border-black');
 
+      menuLinks.forEach((link, index) => {
+        setTimeout(() => {
+          setTimeout(() => {
+            link.classList.add('translate-x-0');
+            link.classList.add('opacity-100');
+          }, 150 * index);
+        }, 200);
+      });
+
       menuItems?.classList.toggle('navMenuOpen');
       menuItems?.classList.toggle('navMenuClosed');
-      console.log(menuExpanded);
     });
   }
 

@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { ViewTransitions } from 'astro:transitions';
 import Header from '../components/organisms/Header.astro';
+import Footer from '../components/organisms/Footer.astro';
 
 const { title, activeNav } = Astro.props;
 ---
@@ -24,7 +25,7 @@ const { title, activeNav } = Astro.props;
     <ViewTransitions />
     <script is:inline src='/toggle-theme.js'></script>
   </head>
-  <body class='bg-background relative'>
+  <body class='bg-background relative font-base'>
     <!-- Header -->
     <Header activeNav={activeNav} client:load />
 
@@ -34,6 +35,6 @@ const { title, activeNav } = Astro.props;
     </main>
 
     <!-- Footer -->
-    <footer class='h-24 border-t border-muted'></footer>
+    <Footer />
   </body>
 </html>
