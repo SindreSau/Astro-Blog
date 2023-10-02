@@ -16,9 +16,9 @@ const navItems = [
   },
 ];
 
-export interface Props {
+export type Props = {
   activeNav?: 'Home' | 'About' | 'Posts';
-}
+};
 
 const { activeNav } = Astro.props;
 ---
@@ -217,7 +217,7 @@ const { activeNav } = Astro.props;
       menuLinks.forEach((link, index) => {
         setTimeout(() => {
           setTimeout(() => {
-            link.classList.toggle('-translate-x-0');
+            link.classList.toggle('translate-x-0');
             link.classList.toggle('opacity-100');
           }, 150 * index);
         }, 200);
