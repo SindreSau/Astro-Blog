@@ -25,12 +25,12 @@ const { title, activeNav } = Astro.props;
     <ViewTransitions />
     <script is:inline src='/toggle-theme.js'></script>
   </head>
-  <body class='bg-background relative font-base'>
+  <body transition:animate='none' class='bg-background relative font-base'>
     <!-- Header -->
     <Header activeNav={activeNav} />
 
     <!-- Main -->
-    <main id='main-content' class='container mx-auto px-6 pt-24 md:pt-48'>
+    <main transition:animate='fade' id='main-content' class='container mx-auto px-6 pt-24 md:pt-48'>
       <slot />
     </main>
 
