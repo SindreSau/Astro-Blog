@@ -1,7 +1,7 @@
 /* Style the scrollbar */
 ::-webkit-scrollbar {
-  width: 10px; /* Adjust width for vertical scrollbar */
-  height: 10px; /* Adjust height for horizontal scrollbar */
+  width: 7px; /* Adjust width for vertical scrollbar */
+  height: 7px; /* Adjust height for horizontal scrollbar */
 }
 
 /* Handle */
@@ -20,6 +20,30 @@
   background: transparent; /* Transparent track */
 }
 
+/* Dark scrollbar */
+
+/* Style the scrollbar */
+::-webkit-scrollbar {
+  width: 7px; /* Adjust width for vertical scrollbar */
+  height: 7px; /* Adjust height for horizontal scrollbar */
+}
+
+/* Handle */
+.dark ::-webkit-scrollbar-thumb {
+  background: #3f3f3f; /* Color of the scroll thumb */
+  border-radius: 5px; /* Rounded corners */
+}
+
+/* Handle on hover */
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #5b5b5b; /* Darker shade on hover */
+}
+
+/* Track */
+.dark ::-webkit-scrollbar-track {
+  background: linear-gradient(to top, #121212, #1a1a1a); /* Transparent track */
+}
+
 /* Firefox support */
 :root {
   scrollbar-width: thin; /* or "none" if you don't want to display them */
@@ -29,6 +53,7 @@
 /* Font setup */
 body {
   font-family: 'Lato', sans-serif;
+  scroll-behavior: smooth;
 }
 
 /* Article styles */
@@ -72,7 +97,9 @@ h6 {
 
 /* GLOBAL STYLES */
 blockquote {
-  font: 14px/22px normal helvetica, sans-serif;
+  font:
+    14px/22px normal helvetica,
+    sans-serif;
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: 50px;

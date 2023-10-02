@@ -3,6 +3,7 @@ import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 import Layout from '../../layouts/Layout.astro';
 import { contentfulClient, type Author } from '../../lib/contentful';
 import { slugify } from '../../lib/utils/Slugify';
+import { Image } from 'astro:assets';
 
 const entries = await contentfulClient.getEntries<Author>({
   content_type: 'author',
@@ -21,24 +22,28 @@ const authors = entries.items.map((item) => {
 ---
 
 <Layout title='Authors'>
-  <h1 class='text-3xl font-bold mb-6 mt-4'>Our authors</h1>
+  <h1 class='text-3xl font-bold mb-6'>Our authors</h1>
 
   <ul class='grid grid-cols-2 gap-2'>
     {
       authors.map((author) => (
         <a href={'/authors/' + author.slug}>
-          <li class='border rounded-md p-4 max-h-80 overflow-hidden relative'>
-            <div class='flex'>
-              <img class='rounded-full h-48' src={author.image} alt={author.name} transition:name='profile-image' />
+          <li class=''>
+              <Image
+                class='rounded-full h-[150] w-[150] object-cover]'
+                width={150}
+                height={150}
+                quality={'low'}
+                src={author.image}
+                alt={author.name}
+                transition:name='profile-image'
+              />
               <div>
                 <span class='font-bold text-lg'>{author.name}</span>
                 <blockquote>{author.oneliner}</blockquote>
               </div>
             </div>
             <article set:html={author.bio} />
-
-            {/* Fadeout */}
-            <div class='absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#fafafacc]' />
           </li>
         </a>
       ))

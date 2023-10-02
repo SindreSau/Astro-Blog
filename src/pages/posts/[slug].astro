@@ -1,10 +1,10 @@
 ---
-import Layout from '../../layouts/Layout.astro';
 import { contentfulClient } from '../../lib/contentful';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 import type { BlogPost } from '../../lib/contentful';
 import { slugify } from '../../lib/utils/Slugify';
 import BackButton from '../../components/BackButton';
+import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
   const { items } = await contentfulClient.getEntries<BlogPost>({

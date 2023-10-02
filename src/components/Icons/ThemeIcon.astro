@@ -2,7 +2,9 @@
 
 ---
 
-<button id='themeToggle'>
+<button
+  id='themeToggle'
+  class='transition-colors duration-100 hover:dark:bg-dark-background-secondary border rounded-md dark:border-dark-background-secondary p-1 hover:bg-light-background-secondary'>
   <svg width='30px' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>
     <path
       class='sun'
@@ -18,21 +20,26 @@
 </button>
 
 <style>
-  #themeToggle {
-    border: 0;
-    background: none;
+  #themeToggle:hover svg {
+    transition: transform 0.2s ease-in-out;
+    transform: rotate(30deg);
   }
-  .sun {
+
+  #themeToggle svg {
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .moon {
     fill: black;
   }
-  .moon {
+  .sun {
     fill: transparent;
   }
 
-  :global(.dark) .sun {
+  :global(.dark) .moon {
     fill: transparent;
   }
-  :global(.dark) .moon {
+  :global(.dark) .sun {
     fill: white;
   }
 </style>
@@ -57,6 +64,7 @@ if (theme === 'light') {
 window.localStorage.setItem('theme', theme);
 
 const handleToggleClick = () => {
+  console.log('toggle');
   const element = document.documentElement;
   element.classList.toggle('dark');
 
@@ -65,16 +73,4 @@ const handleToggleClick = () => {
 };
 
 document.getElementById('themeToggle').addEventListener('click', handleToggleClick);
-
-// Fix for dark mode flash on page load
-const setDarkMode = () => {
-  if (localStorage.darkMode) {
-    document.documentElement.dataset.dark = '';
-  }
-};
-
-// Runs on initial navigation
-setDarkMode();
-// Runs on view transitions navigation
-document.addEventListener('astro:after-swap', setDarkMode);
 </script>

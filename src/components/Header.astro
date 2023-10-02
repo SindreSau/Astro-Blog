@@ -1,23 +1,19 @@
 ---
-import { FaSearch } from 'react-icons/fa';
 import NavBar from './NavBar';
 import ThemeIcon from './Icons/ThemeIcon.astro';
 ---
 
-<header class=''>
-  <div class=''>
-    <!-- Skip to content -->
-    <a href='#main' class='sr-only focus:not-sr-only w-fit py-2'> Skip to content</a>
+<header class='dark:bg-dark-background fixed w-screen top-0 z-50'>
+  <!-- Skip to content -->
+  <a href='#main' class='sr-only focus:not-sr-only w-fit py-2'> Skip to content</a>
 
-    <div class='flex container mx-auto justify-between py-2 items-center'>
-      <!-- Navbar -->
-      <NavBar client:load />
+  <div class='flex container mx-auto justify-between py-2 items-center'>
+    <!-- Navbar -->
+    <NavBar client:load />
 
-      <!-- Search and theme -->
-      <div class='flex justify-center items-center'>
-        <!-- <button><FaSearch /></button> -->
-        <ThemeIcon />
-      </div>
+    <!-- Theme -->
+    <div class='flex justify-center items-center'>
+      <ThemeIcon client:load />
     </div>
   </div>
 </header>
