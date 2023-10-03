@@ -12,6 +12,7 @@
     --color-text-accent: #ff1547;
     --color-text-accent-hover: #ff2857;
     --color-border-muted: #dee0e1;
+    --color-shadow: #22222233;
   }
   html[data-theme='dark'] {
     --color-background: #0e141b;
@@ -21,6 +22,7 @@
     --color-text-accent: #5eeb54;
     --color-text-accent-hover: #a9ff9c;
     --color-border-muted: #373737;
+--color-shadow: #00000055;
   }
 
   html {
