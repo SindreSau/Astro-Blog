@@ -24,7 +24,7 @@
   }
 
   html {
-    @apply box-border bg-primary text-primary font-base transition-colors;
+    @apply box-border bg-primary text-primary font-base;
     scroll-behavior: smooth;
   }
 
@@ -37,7 +37,8 @@
   }
 
   header {
-    @apply bg-primary;
+    /* BUG USING TAILWIND - CHROME FLASHES ON ROUTE CHANGE */
+    @apply bg-primary text-primary;
   }
 
   h1,

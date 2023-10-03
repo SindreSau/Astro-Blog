@@ -31,7 +31,7 @@ const { title, activeNav } = Astro.props;
     <Header activeNav={activeNav} />
 
     <!-- Main -->
-    <main transition:animate='fade' id='main-content' class='container mx-auto px-6 pt-24 md:pt-48'>
+    <main transition:animate='fade' id='main-content' class='container mx-auto px-6 pt-24 md:pt-48 pb-6 md:pb-12'>
       <slot />
     </main>
 
@@ -39,3 +39,4 @@ const { title, activeNav } = Astro.props;
     <Footer />
   </body>
 </html>
+ 
