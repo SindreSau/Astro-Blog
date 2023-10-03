@@ -1,15 +1,28 @@
 ---
-import RightArrow from '../components/atoms/rightArrow.astro';
 import BlogPreview from '../components/molecules/BlogPreview.astro';
 import MoreContentLink from '../components/molecules/MoreContentLink.astro';
 import Layout from '../layouts/Layout.astro';
+import { contentfulClient, type BlogPost } from '../lib/contentful';
+
+const { items } = await contentfulClient.getEntries<BlogPost>({
+  content_type: 'blogPost',
+  limit: 4,
+  order: 'fields.title',
+});
+
+const posts = items.map((post) => ({
+  title: post.fields.title,
+  abstract: post.fields.abstract,
+  coverImage: post.fields.coverImage,
+  slug: post.fields.slug,
+}));
 ---
 
 <Layout title='Home' activeNav='Home'>
   <div class='opacity-0 hero'>
-    <a href="/about" class='text-xl text-accent hover:text-accent-hover md:text-2xl lg:text-3xl w-fit'>HELLO, MY NAME IS SINDRE</a>
-    <h1 class='mt-6 text-5xl md:text-6xl lg:text-7xl xl:text-8xl'>I make websites.</h1>
-    <h2 class='mt-4 text-xl leading-relaxed font-base md:text-3xl md:mt-6'>
+    <a href='/about' class='text-xl text-accent hover:text-accent-hover lg:text-2xl w-fit'>HELLO, MY NAME IS SINDRE</a>
+    <h1 class='mt-6 text-5xl md:text-6xl lg:text-7xl'>I make websites.</h1>
+    <h2 class='mt-4 text-xl leading-relaxed font-base md:text-2xl md:mt-6'>
       Welcome to a site built with <a class='link' href='https://astro.build'>Astro</a> and <a
         class='link'
         href='https://www.contentful.com/'>Contentful</a
@@ -24,30 +37,16 @@ import Layout from '../layouts/Layout.astro';
 
     <!-- Blog previews -->
     <ul class='grid grid-cols-4 gap-6 my-4 md:gap-8 lg:gap-12 sm:my-6 md:my-8'>
-      <BlogPreview
-        title='This is the title'
-        description='This is the description'
-        image='https://d27fp5ulgfd7w2.cloudfront.net/wp-content/uploads/2019/01/08160759/tech-blogs-1.jpg'
-        linkto='/posts'
-      />
-      <BlogPreview
-        title='This is the title'
-        description='This is the description'
-        image='https://www.collinsdictionary.com/images/full/square_312901307.jpg'
-        linkto='/posts'
-      />
-      <BlogPreview
-        title='This is the title'
-        description='This is the description'
-        image='https://d27fp5ulgfd7w2.cloudfront.net/wp-content/uploads/2019/01/08160759/tech-blogs-1.jpg'
-        linkto='/posts'
-      />
-      <BlogPreview
-        title='This is the title'
-        description='This is the description'
-        image='https://d27fp5ulgfd7w2.cloudfront.net/wp-content/uploads/2019/01/08160759/tech-blogs-1.jpg'
-        linkto='/posts'
-      />
+      {
+        posts.map((post) => (
+          <BlogPreview
+            title={post.title}
+            abstract={post.abstract}
+            image={post.coverImage.fields.file.url}
+            linkto={'/posts/' + post.slug}
+          />
+        ))
+      }
     </ul>
 
     <MoreContentLink text='See all posts' linkto='/posts' />

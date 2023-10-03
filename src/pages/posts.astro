@@ -1,7 +1,55 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+import BlogPreview from '../components/molecules/BlogPreview.astro';
+import { contentfulClient, type BlogPost } from '../lib/contentful';
+
+let skip = 0;
+
+// Total count of posts
+const ret = await contentfulClient.sync({
+  initial: true,
+  content_type: 'blogPost',
+});
+let count = 0;
+
+ret.entries.forEach((entry) => {
+  count++;
+});
+
+// Get all posts
+const { items } = await contentfulClient.getEntries<BlogPost>({
+  content_type: 'blogPost',
+  // limit: 2,
+  // skip: skip,
+});
+
+const posts = items.map((post) => {
+  return {
+    title: post.fields.title,
+    abstract: post.fields.abstract,
+    coverImage: post.fields.coverImage,
+    slug: post.fields.slug,
+  };
+});
 ---
 
 <Layout title='Posts' activeNav='Posts'>
-  <h1 class='h1'>All posts</h1>
+  <h1 class='h1'>All posts {count}</h1>
+  <hr class='hr' />
+  <!-- Blog previews -->
+  <ul class='grid grid-cols-4 gap-6 my-4 md:gap-8 lg:gap-12 sm:my-6 md:my-8'>
+    {
+      posts.map((post) => (
+        <BlogPreview
+          title={post.title}
+          abstract={post.abstract}
+          image={post.coverImage.fields.file.url}
+          linkto={'/posts/' + post.slug}
+        />
+      ))
+    }
+  </ul>
+  <!-- Pagination -->
+  <div></div>
 </Layout>

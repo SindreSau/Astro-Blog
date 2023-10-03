@@ -1,0 +1,116 @@
+---
+import { contentfulClient, type BlogPost } from '../../lib/contentful';
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import BackButton from '../../components/atoms/BackButton.astro';
+
+export async function getStaticPaths() {
+  const { items } = await contentfulClient.getEntries<BlogPost>({
+    content_type: 'blogPost',
+  });
+
+  const pages = items.map((post) => ({
+    params: { slug: post.fields.slug },
+    props: {
+      title: post.fields.title,
+      createdAt: new Date(post.fields.createdAt).toDateString(),
+      coverImage: post.fields.coverImage,
+      author: post.fields.author,
+      abstract: post.fields.abstract,
+      content: documentToHtmlString(post.fields.content),
+    },
+  }));
+
+  return pages;
+}
+
+const { title, coverImage, createdAt, author, abstract, content } = Astro.props;
+---
+
+<Layout title={title} activeNav='Posts' smallPaddingTop>
+  <div class='flex flex-col lg:flex-row justify-start items-start'>
+    <BackButton />
+    <article class='max-w-4xl mx-auto blogpost'>
+      <!-- Cover image -->
+      <Image
+        src={coverImage.fields.file.url}
+        alt={title + '-image'}
+        width={896}
+        height={896}
+        transition:name=`blog-image-${title}`
+        class='parallax-image'
+      />
+      <heading>
+        <!-- Heading -->
+        <h1 class='h1 pt-4 md:pt-6' transition:name=`blog-heading-${title}`>{title}</h1>
+
+        <!-- Autho-card -->
+        <figure class='flex items-center gap-4 pt-1 md:pt-3'>
+          <Image
+            src={author.fields.profileImage.fields.file.url}
+            alt={author.fields.name + '-avatar'}
+            width={64}
+            height={64}
+            class='rounded-full w-10 md:w-12 aspect-square'
+          />
+          <figcaption class='text-gray-500 text-muted flex flex-col'>
+            <strong>{author.fields.name}</strong>
+            <time>{createdAt}</time>
+          </figcaption>
+        </figure>
+
+        <!-- Abstract -->
+        <p class='text-lg mt-8' transition:name=`blog-abstract-${title}`>{abstract}</p>
+
+        <hr class='hr' />
+      </heading>
+
+      <!-- Content -->
+      <section set:html={content} />
+    </article>
+  </div>
+</Layout>
+
+<style is:inline>
+  h2 {
+    font-size: 1.8rem;
+    margin-top: 3rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  h4 {
+    font-size: 1.25rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+
+  .blogpost ul {
+    list-style: disc;
+    margin-left: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+    }
+
+    h4 {
+      font-size: 1.25rem;
+    }
+
+    p {
+      font-size: 1.15rem;
+    }
+  }
+</style>
