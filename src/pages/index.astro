@@ -1,13 +1,30 @@
 ---
-import RightArrow from '../components/atoms/rightArrow.astro';
 import BlogPreview from '../components/molecules/BlogPreview.astro';
 import MoreContentLink from '../components/molecules/MoreContentLink.astro';
 import Layout from '../layouts/Layout.astro';
+import { contentfulClient, type BlogPost } from '../lib/contentful';
+import slugify from '../lib/slugify';
+
+const entries = await contentfulClient.getEntries<BlogPost>({
+  content_type: 'blogPost',
+  limit: 4,
+});
+
+const items = entries.items.map((item) => {
+  const { title, abstract, coverImage } = item.fields;
+  return {
+    title,
+    abstract,
+    coverImage: coverImage,
+  };
+});
 ---
 
 <Layout title='Home' activeNav='Home'>
   <div class='opacity-0 hero'>
-    <a href="/about" class='text-xl text-accent hover:text-accent-hover md:text-2xl lg:text-3xl w-fit'>HELLO, MY NAME IS SINDRE</a>
+    <a href='/about' class='text-xl text-accent hover:text-accent-hover md:text-2xl lg:text-3xl w-fit'
+      >HELLO, MY NAME IS SINDRE</a
+    >
     <h1 class='mt-6 text-5xl md:text-6xl lg:text-7xl xl:text-8xl'>I make websites.</h1>
     <h2 class='mt-4 text-xl leading-relaxed font-base md:text-3xl md:mt-6'>
       Welcome to a site built with <a class='link' href='https://astro.build'>Astro</a> and <a
@@ -24,30 +41,16 @@ import Layout from '../layouts/Layout.astro';
 
     <!-- Blog previews -->
     <ul class='grid grid-cols-4 gap-6 my-4 md:gap-8 lg:gap-12 sm:my-6 md:my-8'>
-      <BlogPreview
-        title='This is the title'
-        description='This is the description'
-        image='https://d27fp5ulgfd7w2.cloudfront.net/wp-content/uploads/2019/01/08160759/tech-blogs-1.jpg'
-        linkto='/posts'
-      />
-      <BlogPreview
-        title='This is the title'
-        description='This is the description'
-        image='https://www.collinsdictionary.com/images/full/square_312901307.jpg'
-        linkto='/posts'
-      />
-      <BlogPreview
-        title='This is the title'
-        description='This is the description'
-        image='https://d27fp5ulgfd7w2.cloudfront.net/wp-content/uploads/2019/01/08160759/tech-blogs-1.jpg'
-        linkto='/posts'
-      />
-      <BlogPreview
-        title='This is the title'
-        description='This is the description'
-        image='https://d27fp5ulgfd7w2.cloudfront.net/wp-content/uploads/2019/01/08160759/tech-blogs-1.jpg'
-        linkto='/posts'
-      />
+      {
+        items.map((item) => (
+          <BlogPreview
+            title={item.title}
+            abstract={item.abstract}
+            image={item.coverImage?.fields.file.url}
+            linkto={'/posts/' + slugify(item.title)}
+          />
+        ))
+      }
     </ul>
 
     <MoreContentLink text='See all posts' linkto='/posts' />

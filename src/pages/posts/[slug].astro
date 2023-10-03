@@ -1,0 +1,29 @@
+---
+import { contentfulClient, type BlogPost } from '../../lib/contentful';
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+import slugify from '../../lib/slugify';
+
+export async function getStaticPaths() {
+  const { items } = await contentfulClient.getEntries<BlogPost>({
+    content_type: 'blogPost',
+  });
+
+  const pages = items.map((post) => ({
+    params: { slug: slugify(post.fields.title) },
+    props: {
+      title: post.fields.title,
+      createdAt: post.fields.createdAt,
+      coverImage: post.fields.coverImage,
+      author: post.fields.author,
+      abstract: post.fields.abstract,
+      content: documentToHtmlString(post.fields.content),
+    },
+  }));
+
+  return pages;
+}
+
+const { title } = Astro.props;
+---
+
+<h1>{title}</h1>
