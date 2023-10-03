@@ -27,6 +27,7 @@ const { title, activeNav } = Astro.props;
   </head>
   <body transition:animate='none' class='bg-background relative font-base'>
     <!-- Header -->
+    <!-- Should client:visible be here? Goal to only load on smaller screens -->
     <Header activeNav={activeNav} />
 
     <!-- Main -->

@@ -23,12 +23,21 @@
     --color-border-muted: #373737;
   }
 
+  html {
+    @apply box-border bg-primary text-primary font-base transition-colors;
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply bg-primary text-primary font-base transition-colors flex flex-col min-h-screen;
+    @apply flex flex-col min-h-screen;
   }
 
   main {
     @apply grow;
+  }
+
+  header {
+    @apply bg-primary;
   }
 
   h1,
