@@ -8,8 +8,8 @@ import Layout from '../layouts/Layout.astro';
 <Layout title='Home' activeNav='Home'>
   <div class='hero'>
     <h3 class='text-xl text-accent hover:text-accent-hover md:text-2xl lg:text-3xl w-fit'>HELLO, MY NAME IS SINDRE</h3>
-    <h1 class='text-5xl mt-6 md:text-6xl lg:text-7xl xl:text-8xl'>I make websites.</h1>
-    <h2 class='font-base text-xl md:text-3xl mt-4 md:mt-6 leading-relaxed'>
+    <h1 class='mt-6 text-5xl md:text-6xl lg:text-7xl xl:text-8xl'>I make websites.</h1>
+    <h2 class='mt-4 text-xl leading-relaxed font-base md:text-3xl md:mt-6'>
       Welcome to a site built with <a class='link' href='https://astro.build'>Astro</a> and <a
         class='link'
         href='https://www.contentful.com/'>Contentful</a
@@ -19,11 +19,11 @@ import Layout from '../layouts/Layout.astro';
     </h2>
   </div>
 
-  <div class='pt-14 w-full md:mt-8'>
+  <div class='w-full pt-14 md:mt-8'>
     <h2 class='text-4xl'>Featured Posts</h2>
 
     <!-- Blog previews -->
-    <ul class='grid gap-6 md:gap-8 lg:gap-12 grid-cols-4 my-4 sm:my-6 md:my-8'>
+    <ul class='grid grid-cols-4 gap-6 my-4 md:gap-8 lg:gap-12 sm:my-6 md:my-8'>
       <BlogPreview
         title='This is the title'
         description='This is the description'
