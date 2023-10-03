@@ -1,0 +1,19 @@
+---
+import RightArrow from '../atoms/rightArrow.astro';
+
+interface Props {
+  text: string;
+  linkto: string;
+}
+
+const { text, linkto } = Astro.props;
+---
+
+<a
+  class='relative flex items-center ml-auto text-xl transition-transform duration-200 group text-accent w-fit'
+  href={linkto}>
+  {text}
+  <div class='transition-transform duration-200 w-7 group-hover:translate-x-2'>
+    <RightArrow />
+  </div></a
+>

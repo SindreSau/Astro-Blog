@@ -1,5 +1,24 @@
 ---
+interface Props {
+  image: string;
+  title: string;
+  description: string;
+  linkto: string;
+}
 
+const { image, title, description, linkto } = Astro.props;
 ---
 
-<div class='relative grow w-16 h-16 bg-secondary'></div>
+<li class='relative w-full col-span-4 duration-300 rounded-lg aspect-video md:aspect-square md:rounded-xl overflow-clip md:col-span-2 xl:col-span-1 md:hover:scale-105 group transition-card shadow-card md:hover:shadow-card-hover'>
+  <a href={linkto} class="w-full aspect-square">
+    <!-- Image -->
+    <img class='object-cover h-full w-full -z-10 filter brightness-75 md:group-hover:brightness-50 grayscale-[20%] transition-[filter]' src={image} alt={title + '-image'} />
+  
+    <!-- Title + description -->
+    <div class='absolute top-0 left-0 flex flex-col p-4 text-white md:p-6'>
+      <h1 class='text-3xl'>{title}</h1>
+  
+      <p class='text-lg transition-transform duration-200 md:translate-y-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100'>{description}</p>
+    </div>
+  </a>
+</li>

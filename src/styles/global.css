@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @layer base {
+
   :root,
   html[data-theme='light'] {
     --color-background: #ffffff;
@@ -12,7 +13,9 @@
     --color-text-accent: #ff1547;
     --color-text-accent-hover: #ff2857;
     --color-border-muted: #dee0e1;
+    --color-shadow: #22222233;
   }
+
   html[data-theme='dark'] {
     --color-background: #0e141b;
     --color-background-secondary: #3f3f3f;
@@ -21,14 +24,26 @@
     --color-text-accent: #5eeb54;
     --color-text-accent-hover: #a9ff9c;
     --color-border-muted: #373737;
+    --color-shadow: #00000055;
+  }
+
+  html {
+    @apply box-border bg-primary text-primary font-base;
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 
   body {
-    @apply bg-primary text-primary font-base transition-colors flex flex-col min-h-screen;
+    @apply flex flex-col min-h-screen;
   }
 
   main {
     @apply grow;
+  }
+
+  header {
+    @apply bg-primary text-primary;
   }
 
   h1,
@@ -41,7 +56,7 @@
   }
 
   .h1 {
-    @apply text-4xl mb-2;
+    @apply mb-2 text-4xl;
   }
 
   p {
@@ -54,15 +69,35 @@
 
   .link::before {
     @apply absolute w-full bg-secondary h-[0.55em] -z-20 left-0 -bottom-0.5 transition duration-300;
-    content: ''; /* This is required for the pseudo-element to show */
+    content: '';
+    /* This is required for the pseudo-element to show */
   }
 
   .link::after {
     @apply absolute w-0 bg-accent-hover h-[0.55em] opacity-70 -z-10 left-0 -bottom-0.5 transition-all;
-    content: ''; /* This is required for the pseudo-element to show */
+    content: '';
+    /* This is required for the pseudo-element to show */
   }
 
   .link:hover::after {
     @apply w-full ease-in;
+  }
+
+  /* Scrollbar handling */
+  ::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-background);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 0.815rem;
+    background-color: #484845;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #6b6b6b;
   }
 }

@@ -24,6 +24,13 @@ module.exports = {
         base: ['Lato', 'sans-serif'],
         heading: ['Playfair Display', 'serif'],
       },
+      boxShadow: {
+        card: '2px 2px 15px 2px var(--color-shadow)',
+        'card-hover': '2px 2px 20px 6px var(--color-shadow)',
+      },
+      transitionProperty: {
+        card: 'box-shadow transform'
+      }
     },
   },
   // New feature to fix hover on touch devices
