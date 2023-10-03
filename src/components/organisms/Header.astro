@@ -54,7 +54,7 @@ const { activeNav } = Astro.props;
     <ul id='navcontent' class='items-center hidden gap-10 md:flex navMenuClosed'>
       {
         navItems.map((item) => (
-          <li class='duration-300 opacity-0 nav-item md:opacity-100 md:translate-x-0'>
+          <li class='opacity-0 max-md:duration-300 nav-item md:opacity-100 md:translate-x-0'>
             <a
               href={item.url}
               class={`${
