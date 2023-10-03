@@ -6,8 +6,8 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title='Home' activeNav='Home'>
-  <div class='hero'>
-    <h3 class='text-xl text-accent hover:text-accent-hover md:text-2xl lg:text-3xl w-fit'>HELLO, MY NAME IS SINDRE</h3>
+  <div class='opacity-0 hero'>
+    <a href="/about" class='text-xl text-accent hover:text-accent-hover md:text-2xl lg:text-3xl w-fit'>HELLO, MY NAME IS SINDRE</a>
     <h1 class='mt-6 text-5xl md:text-6xl lg:text-7xl xl:text-8xl'>I make websites.</h1>
     <h2 class='mt-4 text-xl leading-relaxed font-base md:text-3xl md:mt-6'>
       Welcome to a site built with <a class='link' href='https://astro.build'>Astro</a> and <a
@@ -68,6 +68,6 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .hero {
-    animation: heroAnimation 0.5s ease-out;
+    animation: heroAnimation 500ms ease-out 100ms forwards;
   }
 </style>
