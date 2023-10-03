@@ -4,7 +4,13 @@ import { ViewTransitions } from 'astro:transitions';
 import Header from '../components/organisms/Header.astro';
 import Footer from '../components/organisms/Footer.astro';
 
-const { title, activeNav } = Astro.props;
+export interface Props {
+  title: string;
+  activeNav: 'Home' | 'Posts' | 'About';
+  smallPaddingTop?: boolean;
+}
+
+const { title, activeNav, smallPaddingTop } = Astro.props;
 ---
 
 <html lang='en'>
@@ -25,13 +31,17 @@ const { title, activeNav } = Astro.props;
     <ViewTransitions />
     <script is:inline src='/toggle-theme.js'></script>
   </head>
-  <body transition:animate='none' class='relative bg-background font-base'>
+  <body class='relative bg-background font-base'>
     <!-- Header -->
     <!-- Should client:visible be here? Goal to only load on smaller screens -->
     <Header activeNav={activeNav} />
 
     <!-- Main -->
-    <main transition:animate='fade' id='main-content' class='container px-6 pt-24 pb-6 mx-auto md:pt-48 md:pb-12'>
+    <main
+      id='main-content'
+      class={smallPaddingTop
+        ? 'relative container px-6 pt-20 pb-6 mx-auto md:pt-28 md:pb-12'
+        : 'relative container px-6 pt-24 pb-6 mx-auto md:pt-48 md:pb-12'}>
       <slot />
     </main>
 

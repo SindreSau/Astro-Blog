@@ -12,6 +12,7 @@ export interface BlogPost {
   contentTypeId: 'blogPost';
   fields: {
     title: EntryFieldTypes.Text;
+    slug: EntryFieldTypes.Text;
     createdAt: EntryFieldTypes.Date;
     coverImage: EntryFieldTypes.AssetLink;
     author: EntryFieldTypes.Object;

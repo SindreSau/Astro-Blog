@@ -56,11 +56,16 @@
   }
 
   .h1 {
-    @apply mb-2 text-4xl;
+    @apply mb-2 text-3xl md:text-4xl;
   }
 
   p {
     @apply text-[1.125rem] leading-[1.75rem] mb-4;
+  }
+
+  .hr,
+  .blogpost hr {
+    @apply border-t border-muted mt-6 md:mt-16 mb-4 md:mb-4 opacity-70;
   }
 
   .link {
